@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@layer components {
+  @keyframes capy-idle {
+    0%, 100% { transform: scaleY(1) translateY(0); }
+    50% { transform: scaleY(0.96) translateY(3px); }
+  }
+  @keyframes capy-run-body {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-4px) rotate(4deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(-4px) rotate(-4deg); }
+  }
+  @keyframes capy-run-leg-back-1 {
+    0%, 100% { transform: rotate(15deg); }
+    50% { transform: rotate(-30deg); }
+  }
+  @keyframes capy-run-leg-back-2 {
+    0%, 100% { transform: rotate(-30deg); }
+    50% { transform: rotate(15deg); }
+  }
+  @keyframes capy-run-leg-front-1 {
+    0%, 100% { transform: rotate(-25deg); }
+    50% { transform: rotate(20deg); }
+  }
+  @keyframes capy-run-leg-front-2 {
+    0%, 100% { transform: rotate(20deg); }
+    50% { transform: rotate(-25deg); }
+  }
+  @keyframes capy-jump-body {
+    0% { transform: scaleX(0.95) scaleY(1.05) translateY(-5px) rotate(-5deg); }
+    100% { transform: scaleX(1) scaleY(1) translateY(0) rotate(0deg); }
+  }
+  @keyframes capy-attack-body {
+    0% { transform: translateX(0) scaleX(1); }
+    30% { transform: translateX(-5px) scaleX(0.95) rotate(-5deg); }
+    60% { transform: translateX(15px) scaleX(1.05) rotate(10deg); }
+    100% { transform: translateX(0) scaleX(1); }
+  }
+  @keyframes capy-attack-mouth {
+    0%, 100% { transform: rotate(0) translateY(0); }
+    60% { transform: rotate(15deg) translateY(2px); }
+  }
+
+  .state-idle .capy-body { animation: capy-idle 2s ease-in-out infinite; transform-origin: 50px 75px; }
+  .state-idle .capy-leg { transition: transform 0.2s; transform: rotate(0deg); }
+
+  .state-running .capy-body { animation: capy-run-body 0.4s linear infinite; transform-origin: 50px 75px; }
+  .state-running .capy-leg-bl { animation: capy-run-leg-back-1 0.4s linear infinite; transform-origin: 30px 60px; }
+  .state-running .capy-leg-br { animation: capy-run-leg-back-2 0.4s linear infinite; transform-origin: 65px 60px; }
+  .state-running .capy-leg-fl { animation: capy-run-leg-front-1 0.4s linear infinite; transform-origin: 40px 65px; }
+  .state-running .capy-leg-fr { animation: capy-run-leg-front-2 0.4s linear infinite; transform-origin: 85px 55px; }
+
+  .state-jumping .capy-body { animation: capy-jump-body 0.5s ease-out forwards; transform-origin: 50px 75px; }
+  .state-jumping .capy-leg-bl { transform: rotate(-20deg) translateY(-5px); transform-origin: 30px 60px; }
+  .state-jumping .capy-leg-br { transform: rotate(-10deg) translateY(-2px); transform-origin: 65px 60px; }
+  .state-jumping .capy-leg-fl { transform: rotate(-30deg) translateY(-8px); transform-origin: 40px 65px; }
+  .state-jumping .capy-leg-fr { transform: rotate(-20deg) translateY(-5px); transform-origin: 85px 55px; }
+
+  .state-attacking .capy-body { animation: capy-attack-body 0.4s ease-out; transform-origin: 50px 75px; }
+  .state-attacking .capy-mouth { animation: capy-attack-mouth 0.4s ease-out; transform-origin: 85px 55px; }
+
+  @keyframes capy-collect-body {
+    0% { transform: scale(1) translateY(0); }
+    30% { transform: scale(1.05) translateY(-6px) rotate(-3deg); }
+    50% { transform: scale(1) translateY(-10px) rotate(3deg); }
+    70% { transform: scale(1.05) translateY(-4px) rotate(-3deg); }
+    100% { transform: scale(1) translateY(0); }
+  }
+  @keyframes capy-collect-head {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(-10deg) translateY(-2px); }
+  }
+
+  .state-collecting .capy-body { animation: capy-collect-body 0.4s ease-in-out; transform-origin: 50px 75px; }
+  .state-collecting .capy-mouth { animation: capy-collect-head 0.4s ease-in-out; transform-origin: 85px 40px; }
+
+  /* Crouching state: Squished to look ducked/crouched */
+  .state-crouching .capy-body { transform: scaleY(0.65) translateY(24px); transform-origin: 50px 80px; transition: transform 0.15s ease-out; }
+  .state-crouching .capy-leg { transform: scaleY(0.4) translateY(-10px); transform-origin: 50px 75px; transition: transform 0.15s ease-out; }
+  .state-crouching .capy-shadow { transform: scaleX(1.3); transform-origin: 50px 88px; }
+
+  /* Climbing state: Wiggle body and legs like moving on ladder rungs */
+  @keyframes capy-climb-body {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(2deg); }
+  }
+  @keyframes capy-climb-leg-1 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes capy-climb-leg-2 {
+    0%, 100% { transform: translateY(-12px); }
+    50% { transform: translateY(0); }
+  }
+  .state-climbing .capy-body { animation: capy-climb-body 0.3s linear infinite; transform-origin: 50px 75px; }
+  .state-climbing .capy-leg-bl { animation: capy-climb-leg-1 0.3s linear infinite; transform-origin: 30px 60px; }
+  .state-climbing .capy-leg-fr { animation: capy-climb-leg-1 0.3s linear infinite; transform-origin: 85px 55px; }
+  .state-climbing .capy-leg-br { animation: capy-climb-leg-2 0.3s linear infinite; transform-origin: 65px 60px; }
+  .state-climbing .capy-leg-fl { animation: capy-climb-leg-2 0.3s linear infinite; transform-origin: 40px 65px; }
+}

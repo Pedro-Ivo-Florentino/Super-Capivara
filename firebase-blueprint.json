@@ -1,0 +1,22 @@
+{
+  "entities": {
+    "PlayerState": {
+      "title": "PlayerState",
+      "description": "Stores user game progress",
+      "type": "object",
+      "properties": {
+        "currentLevelIndex": { "type": "number" },
+        "totalLettuces": { "type": "number" },
+        "lives": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["currentLevelIndex", "totalLettuces", "lives"]
+    }
+  },
+  "firestore": {
+    "players/{userId}": {
+      "schema": { "$ref": "#/entities/PlayerState" },
+      "description": "Progress mapping for each user by auth ID"
+    }
+  }
+}
